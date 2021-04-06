@@ -28,7 +28,7 @@ class User < ApplicationRecord
 
     attr_reader :password
 
-    def find_by_credentials(email, password)
+    def self.find_by_credentials(email, password)
         user = User.find_by(email: email)
 
         if user && user.is_password?(password)
@@ -49,13 +49,13 @@ class User < ApplicationRecord
     end
 
     def password=(password)
-        self.password_digest = Bcrypt::Password.create(password)
+        self.password_digest = BCrypt::Password.create(password)
         @password = password
     end
 
     def is_password?(password)
-        password_obj = Bcrypt::Password.new(self.password_digest)
-        password_obj.is_password?(passwsord)
+        password_obj = BCrypt::Password.new(self.password_digest)
+        password_obj.is_password?(password)
     end
 
 end
